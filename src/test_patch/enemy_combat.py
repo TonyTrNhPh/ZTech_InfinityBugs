@@ -1,4 +1,7 @@
 import random
+from time import sleep
+
+import pygame
 
 scenario_number_generate = 3
 
@@ -58,7 +61,7 @@ while player_health > 0 and enemy_health > 0:
             elif enemy_health <= 0:
                 print("Enemy defeated! You win.")
                 break
-
+        sleep(3)
         # Check if either player or enemy health reaches zero after each enemy move
         if player_health <= 0 or enemy_health <= 0:
             break
