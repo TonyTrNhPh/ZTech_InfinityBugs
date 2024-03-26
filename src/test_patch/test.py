@@ -86,32 +86,32 @@ while run:
             game_paused = True
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            # Start tracking mouse movement when mouse button is pressed
-            mouse_tracking = True
-            prev_time = pygame.time.get_ticks()
-        if event.type == pygame.MOUSEBUTTONUP:
-            # Stop tracking mouse movement when mouse button is released
-            mouse_tracking = False
+        # if event.type == pygame.MOUSEBUTTONDOWN:
+        #     # Start tracking mouse movement when mouse button is pressed
+        #     mouse_tracking = True
+        #     prev_time = pygame.time.get_ticks()
+        # if event.type == pygame.MOUSEBUTTONUP:
+        #     # Stop tracking mouse movement when mouse button is released
+        #     mouse_tracking = False
 
-    if mouse_tracking:
-        current_time = pygame.time.get_ticks()
-        if current_time - prev_time >= delay_duration:
-            mouse_position = pygame.mouse.get_pos()
-            dx = mouse_position[0] - prev_mouse_pos[0]
-            dy = mouse_position[1] - prev_mouse_pos[1]
-            direction = ""
-            if dy > 0:
-                direction += "Down "
-            elif dy < 0:
-                direction += "Up "
-            if dx > 0:
-                direction += "Right "
-            elif dx < 0:
-                direction += "Left "
-            if direction:
-                print("Mouse direction:", direction)
-            prev_mouse_pos = mouse_position
-            prev_time = current_time
+    # if mouse_tracking:
+    #     current_time = pygame.time.get_ticks()
+    #     if current_time - prev_time >= delay_duration:
+    #         mouse_position = pygame.mouse.get_pos()
+    #         dx = mouse_position[0] - prev_mouse_pos[0]
+    #         dy = mouse_position[1] - prev_mouse_pos[1]
+    #         direction = ""
+    #         if dy > 0:
+    #             direction += "Down "
+    #         elif dy < 0:
+    #             direction += "Up "
+    #         if dx > 0:
+    #             direction += "Right "
+    #         elif dx < 0:
+    #             direction += "Left "
+    #         if direction:
+    #             print("Mouse direction:", direction)
+    #         prev_mouse_pos = mouse_position
+    #         prev_time = current_time
     pygame.display.update()
 pygame.quit()

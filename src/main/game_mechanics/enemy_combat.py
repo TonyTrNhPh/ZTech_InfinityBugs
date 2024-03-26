@@ -22,6 +22,9 @@ def generate_counter_scenario(enemy_scenario):
 enemy_scenario = [generate_random_list() for _ in range(scenario_number_generate)]
 enemy_counter_scenario = generate_counter_scenario(enemy_scenario)
 
+
+# Print the generated enemy_scenario
 print(enemy_scenario)
+print(enemy_counter_scenario)
 
 

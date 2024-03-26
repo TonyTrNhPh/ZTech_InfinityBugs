@@ -1,30 +1,33 @@
 import pygame
 
-#button class
-class Button():
-	def __init__(self, x, y, image, scale):
-		width = image.get_width()
-		height = image.get_height()
-		self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
-		self.rect = self.image.get_rect()
-		self.rect.topleft = (x, y)
-		self.clicked = False
 
-	def draw(self, surface):
-		action = False
-		#get mouse position
-		pos = pygame.mouse.get_pos()
+class Button:
+    def __init__(self, x, y, color, text=''):
+        self.x = x
+        self.y = y
+        self.rect = pygame.Rect(x, y, 95, 95)
+        self.color = color
+        self.text = text
+        self.text_color = (255, 255, 255)
+        self.font = pygame.font.Font(None, 48)
+        self.clicked = False
+        self.click_time = 0
 
-		#check mouseover and clicked conditions
-		if self.rect.collidepoint(pos):
-			if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-				self.clicked = True
-				action = True
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, self.rect)
+        text_surface = self.font.render(self.text, True, self.text_color)
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        surface.blit(text_surface, text_rect)
 
-		if pygame.mouse.get_pressed()[0] == 0:
-			self.clicked = False
+        if self.clicked and pygame.time.get_ticks() - self.click_time >= 200:
+            self.color = (0,0,0)
+            self.text_color = (255, 255, 255)
+            self.clicked = False
 
-		#draw button on screen
-		surface.blit(self.image, (self.rect.x, self.rect.y))
+    def selected(self):
+        self.color = (255, 255, 255)
+        self.text_color = (0, 0, 0)
+        self.clicked = True
+        self.click_time = pygame.time.get_ticks()  # Record the time button was clicked
 
-		return action
+

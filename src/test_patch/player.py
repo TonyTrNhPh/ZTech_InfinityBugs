@@ -1,59 +1,52 @@
+from time import sleep
+
 import pygame
+from button import Button as bt
 
 class Player:
-    def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 300, 300)
-        self.color = (255,255,255)
+    def __init__(self,x,y,size):
+        self.x=x
+        self.y=y
+        self.size = size
+        self.buttons = []
+        self.create_buttons()
+
+    def create_buttons(self):
+        for i in range(3):
+            for j in range(3):
+                button_number = i * 3 + j + 1
+                button = bt(self.x + j * self.size, self.y + i * self.size,(0,0,0), str(button_number))
+                self.buttons.append(button)
 
     def draw(self, surface):
-        pygame.draw.rect(surface, (255, 255, 255), self.rect)
-        # Calculate grid parameters relative to the player's rectangle
-        grid_size = 300
-        rows = 3
-        thick = 3
-        distance = grid_size // rows
-        start_x = self.rect.left
-        end_x = self.rect.right
-        start_y = self.rect.top
-        end_y = self.rect.bottom
+        for button in self.buttons:
+            button.draw(surface)
 
-        # Calculate outer rectangle coordinates for the border
-        outer_rect = pygame.Rect(self.rect.left - thick,
-                                 self.rect.top - thick,
-                                 self.rect.width + 2 * thick,
-                                 self.rect.height + 2 * thick)
+    def handle_event(self, key):
+        if key == pygame.K_KP1:
+            self.buttons[0].selected()
+        elif key == pygame.K_KP2:
+            self.buttons[1].selected()
+        elif key == pygame.K_KP3:
+            self.buttons[2].selected()
+        elif key == pygame.K_KP4:
+            self.buttons[3].selected()
+        elif key == pygame.K_KP5:
+            self.buttons[4].selected()
+        elif key == pygame.K_KP6:
+            self.buttons[5].selected()
+        elif key == pygame.K_KP7:
+            self.buttons[6].selected()
+        elif key == pygame.K_KP8:
+            self.buttons[7].selected()
+        elif key == pygame.K_KP9:
+            self.buttons[8].selected()
 
-        # Draw border rectangle
-        pygame.draw.rect(surface, (0, 0, 0), outer_rect, thick)
-        # Draw grid lines within the player's rectangle
-        for x in range(start_x + distance, end_x, distance):
-            pygame.draw.line(surface, (0, 0, 0), (x, start_y), (x, end_y), thick)
-        for y in range(start_y + distance, end_y, distance):
-            pygame.draw.line(surface, (0, 0, 0), (start_x, y), (end_x, y), thick)
+    def array_handle(self, array):
+        for scene in array:
+            for num in scene:
+                self.buttons[num - 1].selected()
 
-        font = pygame.font.SysFont("arialblack", 36)
-        numbers_list = [1,2,3,4,5,6,7,8,9]
-        index = 0
-        for y in range(end_y - distance, start_y - 1, -distance):
-            for x in range(start_x, end_x, distance):
-                text = font.render(str(numbers_list[index]), True, (0, 0, 0))
-                text_rect = text.get_rect(center=(x + distance // 2, y + distance // 2))
-                surface.blit(text, text_rect)
-                index += 1
-
-    def move(self, key):
-        key_pressed = {
-            pygame.K_1: (255, 0, 0),
-            pygame.K_2: (0, 255, 0),
-            pygame.K_3: (0, 0, 255),
-            pygame.K_4: (255, 0, 0),
-            pygame.K_5: (0, 255, 0),
-            pygame.K_6: (0, 0, 255),
-            pygame.K_7: (255, 0, 0),
-            pygame.K_8: (0, 255, 0),
-            pygame.K_9: (0, 0, 255),
-        }
-        if key in key_pressed:
-            self.color = key_pressed[key]
+        
 
 
