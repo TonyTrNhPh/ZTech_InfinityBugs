@@ -1,0 +1,1 @@
+DB_URI = 'mysql+mysqlconnector://root:@localhost/Infinity_Bugs'
