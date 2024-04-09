@@ -5,6 +5,7 @@ from os import listdir
 from button import Button
 from sprite_sheet import Sprite
 from time import sleep
+from mouse_track import MouseTrackerApp
 
 pygame.init()
 pygame.display.set_caption("Infinity Bugs")
