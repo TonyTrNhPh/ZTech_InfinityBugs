@@ -73,15 +73,12 @@ class onScreen:
                         pos_x = pygame.mouse.get_pos()[0]
                         pos_y = pygame.mouse.get_pos()[1]
                         self.mouse_tracker.start_recording(pos_x, pos_y)
-
                     elif event.type == pygame.MOUSEMOTION:
                         pos_x = pygame.mouse.get_pos()[0]
                         pos_y = pygame.mouse.get_pos()[1]
                         self.mouse_tracker.track_mouse(pos_x, pos_y)
                     elif event.type == pygame.MOUSEBUTTONUP:
                         self.mouse_tracker.stop_recording()
-
-                        self.play.handle_event_key(dir)
                     if event.type == pygame.KEYDOWN:
                         # Press ESC on the keyboard to pause or unpause the game
                         if event.key == pygame.K_ESCAPE:

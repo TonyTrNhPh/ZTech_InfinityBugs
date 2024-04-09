@@ -8,7 +8,7 @@
     "duration": 100
    },
    "Down_Attack 1.ase": {
-    "frame": { "x": 500, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 700, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -16,7 +16,7 @@
     "duration": 100
    },
    "Down_Attack 2.ase": {
-    "frame": { "x": 1000, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 1400, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -24,7 +24,7 @@
     "duration": 100
    },
    "Down_Attack 3.ase": {
-    "frame": { "x": 1500, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 2100, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -32,7 +32,7 @@
     "duration": 100
    },
    "Down_Attack 4.ase": {
-    "frame": { "x": 2000, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 2800, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -40,7 +40,7 @@
     "duration": 100
    },
    "Down_Attack 5.ase": {
-    "frame": { "x": 2500, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 3500, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -48,7 +48,7 @@
     "duration": 100
    },
    "Down_Attack 6.ase": {
-    "frame": { "x": 3000, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 4200, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },
@@ -56,7 +56,7 @@
     "duration": 100
    },
    "Down_Attack 7.ase": {
-    "frame": { "x": 3500, "y": 0, "w": 700, "h": 700 },
+    "frame": { "x": 4900, "y": 0, "w": 700, "h": 700 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 700 },

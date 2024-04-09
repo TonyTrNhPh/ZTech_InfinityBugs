@@ -28,6 +28,8 @@ left_down_sheet = Sprite('assets/character/Down_Left_Attack.png')
 right_sheet = Sprite('assets/character/Right_Attack.png')
 right_up_sheet = Sprite('assets/character/Upper_Right_Attack.png')
 right_down_sheet = Sprite('assets/character/Down_Right_Attack.png')
+boss_idle_sheet = Sprite('assets/boss/test.png')
+boss_down_sheet = Sprite('assets/boss/Down_Attack.png')
 
 idle_animation = [idle_sheet.parse_sprite('Idle_Sheet.png')]
 
@@ -91,6 +93,17 @@ right_down_attack_animation = [right_down_sheet.parse_sprite('Down_Right_Attack 
                                right_down_sheet.parse_sprite('Down_Right_Attack 3.ase'),
                                right_down_sheet.parse_sprite('Down_Right_Attack 4.ase')]
 
+boss_idle = [boss_idle_sheet.parse_sprite('test.png')]
+
+boss_down_attack_animation = [boss_down_sheet.parse_sprite('Down_Attack 0.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 1.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 2.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 3.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 4.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 5.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 6.ase'),
+                              boss_down_sheet.parse_sprite('Down_Attack 7.ase')]
+
 time_per_frame = 0.08
 text_font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
@@ -120,6 +133,7 @@ class Play:
             pygame.K_KP8: self.up_attack,
             pygame.K_KP9: self.right_up_attack,
             pygame.K_SPACE: self.being_hit,
+            pygame.K_1: self.boss_down_attack,
         }
         if key in keys:
             keys[key]()
@@ -138,6 +152,13 @@ class Play:
         }
         if direction in directions:
             directions[direction]()
+
+    def boss_down_attack(self):
+        for index in range(0, len(boss_down_attack_animation)):
+            self.blink()
+            self.display.blit(boss_down_attack_animation[index], (500, -100))
+            pygame.display.flip()
+            sleep(time_per_frame)
 
     def being_hit(self):
         for index in range(0, len(being_hit_animation)):
@@ -227,13 +248,14 @@ class Play:
         else:
             self.pause_button.draw(self.display)
             self.display.blit(idle_animation[0], (0, 0))
+            self.display.blit(boss_down_attack_animation[0], (500, -100))
             if self.health_bar.hp != 0:
                 self.health_bar.draw(self.display)
             else:
                 overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
                 overlay.fill((255, 255, 255, 128))
                 self.display.blit(overlay, (0, 0))
-                self.text_display('GAME OVER','red',512, 320)
+                self.text_display('GAME OVER', 'red', 512, 320)
         pygame.display.flip()
 
     def blink(self):
