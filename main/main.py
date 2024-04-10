@@ -1,5 +1,6 @@
+import tkinter
 from time import sleep
-
+import tkinter
 import pygame
 import play_screen as pl
 from play_screen import Play
@@ -9,6 +10,7 @@ from os.path import isfile, join
 from os import listdir
 from game_state_manager import GameStateManager
 from button import Button
+from mouse_track import MouseTrackerApp
 
 pygame.init()
 pygame.display.set_caption("Infinity Bugs")
@@ -37,6 +39,7 @@ class onScreen:
                        'play': self.play,
                        'score': self.score}
         self.running = True
+        self.mouse_tracker = MouseTrackerApp(self.screen)
 
     def run(self):
         while self.running:
@@ -66,6 +69,19 @@ class onScreen:
                     if self.play.quit_button.isClicked():
                         self.play.paused = False
                         self.gameStateManager.set_state('score')
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        pos_x = pygame.mouse.get_pos()[0]
+                        pos_y = pygame.mouse.get_pos()[1]
+                        self.mouse_tracker.start_recording(pos_x, pos_y)
+
+                    elif event.type == pygame.MOUSEMOTION:
+                        pos_x = pygame.mouse.get_pos()[0]
+                        pos_y = pygame.mouse.get_pos()[1]
+                        self.mouse_tracker.track_mouse(pos_x, pos_y)
+                    elif event.type == pygame.MOUSEBUTTONUP:
+                        self.mouse_tracker.stop_recording()
+
+                        self.play.handle_event_key(dir)
                     if event.type == pygame.KEYDOWN:
                         # Press ESC on the keyboard to pause or unpause the game
                         if event.key == pygame.K_ESCAPE:

@@ -1,7 +1,7 @@
 import pygame
 from os.path import join
 
-HEALTH_BAR_IMG = pygame.image.load(join("assets", "component", "health_bar.png"))
+HEALTH_BAR_IMG = pygame.image.load(join("main","assets", "component", "health_bar.png"))
 
 
 class HealthyBar:

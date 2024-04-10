@@ -5,28 +5,29 @@ from os import listdir
 from button import Button
 from sprite_sheet import Sprite
 from time import sleep
+from mouse_track import MouseTrackerApp
 
 pygame.init()
 pygame.display.set_caption("Infinity Bugs")
 
 # Variables
-BG_GAMEPLAY_IMG = pygame.image.load(join("assets", "background", "grid.png"))
-BUTTON_PAUSE_IMG = pygame.image.load(join("assets", "component", "pause_button.png"))
-BUTTON_BACK_IMG = pygame.image.load(join("assets", "component", "back_button.png"))
-BUTTON_QUIT_IMG = pygame.image.load(join("assets", "component", "quit_button.png"))
-BUTTON_MODE_IMG = pygame.image.load(join("assets", "component", "mode_button.png"))
+BG_GAMEPLAY_IMG = pygame.image.load(join("main","assets", "background", "grid.png"))
+BUTTON_PAUSE_IMG = pygame.image.load(join("main","assets", "component", "pause_button.png"))
+BUTTON_BACK_IMG = pygame.image.load(join("main","assets", "component", "back_button.png"))
+BUTTON_QUIT_IMG = pygame.image.load(join("main","assets", "component", "quit_button.png"))
+BUTTON_MODE_IMG = pygame.image.load(join("main","assets", "component", "mode_button.png"))
 
-idle_sheet = Sprite('assets/character/Idle.png')
-being_hit_sheet = Sprite('assets/character/Being_Hit.png')
-block_sheet = Sprite('assets/character/Block.png')
-up_sheet = Sprite('assets/character/Upper_Attack.png')
-down_sheet = Sprite('assets/character/Down_Attack.png')
-left_sheet = Sprite('assets/character/Left_Attack.png')
-left_up_sheet = Sprite('assets/character/Upper_Left_Attack.png')
-left_down_sheet = Sprite('assets/character/Down_Left_Attack.png')
-right_sheet = Sprite('assets/character/Right_Attack.png')
-right_up_sheet = Sprite('assets/character/Upper_Right_Attack.png')
-right_down_sheet = Sprite('assets/character/Down_Right_Attack.png')
+idle_sheet = Sprite('main/assets/character/Idle.png')
+being_hit_sheet = Sprite('main/assets/character/Being_Hit.png')
+block_sheet = Sprite('main/assets/character/Block.png')
+up_sheet = Sprite('main/assets/character/Upper_Attack.png')
+down_sheet = Sprite('main/assets/character/Down_Attack.png')
+left_sheet = Sprite('main/assets/character/Left_Attack.png')
+left_up_sheet = Sprite('main/assets/character/Upper_Left_Attack.png')
+left_down_sheet = Sprite('main/assets/character/Down_Left_Attack.png')
+right_sheet = Sprite('main/assets/character/Right_Attack.png')
+right_up_sheet = Sprite('main/assets/character/Upper_Right_Attack.png')
+right_down_sheet = Sprite('main/assets/character/Down_Right_Attack.png')
 
 idle_animation = [idle_sheet.parse_sprite('Idle_Sheet.png')]
 
@@ -91,7 +92,7 @@ right_down_attack_animation = [right_down_sheet.parse_sprite('Down_Right_Attack 
                                right_down_sheet.parse_sprite('Down_Right_Attack 4.ase')]
 
 time_per_frame = 0.08
-text_font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
+text_font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
 
 
 class Play:
