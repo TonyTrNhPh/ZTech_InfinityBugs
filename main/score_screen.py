@@ -4,9 +4,9 @@ from os import listdir
 from button import Button
 
 # Variables
-BG_SCOREMENU_IMG = pygame.image.load(join("assets", "background", "score_screen.png"))
-BUTTON_START_IMG = pygame.image.load(join("assets", "component", "start_button.png"))
-BUTTON_QUIT_IMG = pygame.image.load(join("assets", "component", "quit_button.png"))
+BG_SCOREMENU_IMG = pygame.image.load(join("main","assets", "background", "score_screen.png"))
+BUTTON_START_IMG = pygame.image.load(join("main","assets", "component", "start_button.png"))
+BUTTON_QUIT_IMG = pygame.image.load(join("main","assets", "component", "quit_button.png"))
 
 
 class Score:
