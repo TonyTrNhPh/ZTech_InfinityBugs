@@ -1,124 +1,30 @@
 import pygame
-from health_bar import HealthyBar
+import random
+from health_bar import HealthBar
 from os.path import isfile, join
 from os import listdir
 from button import Button
 from sprite_sheet import Sprite
 from time import sleep
 from mouse_track import MouseTrackerApp
+from player import Player
+from enemy import Enemy
+
 
 pygame.init()
 pygame.display.set_caption("Infinity Bugs")
 
 # Variables
-BG_GAMEPLAY_IMG = pygame.image.load(join("main","assets", "background", "grid.png"))
-BUTTON_PAUSE_IMG = pygame.image.load(join("main","assets", "component", "pause_button.png"))
-BUTTON_BACK_IMG = pygame.image.load(join("main","assets", "component", "back_button.png"))
-BUTTON_QUIT_IMG = pygame.image.load(join("main","assets", "component", "quit_button.png"))
-BUTTON_MODE_IMG = pygame.image.load(join("main","assets", "component", "mode_button.png"))
-
-idle_sheet = Sprite('assets/character/Idle.png')
-being_hit_sheet = Sprite('assets/character/Being_Hit.png')
-block_sheet = Sprite('assets/character/Block.png')
-up_sheet = Sprite('assets/character/Upper_Attack.png')
-down_sheet = Sprite('assets/character/Down_Attack.png')
-left_sheet = Sprite('assets/character/Left_Attack.png')
-left_up_sheet = Sprite('assets/character/Upper_Left_Attack.png')
-left_down_sheet = Sprite('assets/character/Down_Left_Attack.png')
-right_sheet = Sprite('assets/character/Right_Attack.png')
-right_up_sheet = Sprite('assets/character/Upper_Right_Attack.png')
-right_down_sheet = Sprite('assets/character/Down_Right_Attack.png')
-boss_idle_sheet = Sprite('assets/boss/test.png')
-boss_down_sheet = Sprite('assets/boss/Down_Attack.png')
-
-idle_sheet = Sprite('main/assets/character/Idle.png')
-being_hit_sheet = Sprite('main/assets/character/Being_Hit.png')
-block_sheet = Sprite('main/assets/character/Block.png')
-up_sheet = Sprite('main/assets/character/Upper_Attack.png')
-down_sheet = Sprite('main/assets/character/Down_Attack.png')
-left_sheet = Sprite('main/assets/character/Left_Attack.png')
-left_up_sheet = Sprite('main/assets/character/Upper_Left_Attack.png')
-left_down_sheet = Sprite('main/assets/character/Down_Left_Attack.png')
-right_sheet = Sprite('main/assets/character/Right_Attack.png')
-right_up_sheet = Sprite('main/assets/character/Upper_Right_Attack.png')
-right_down_sheet = Sprite('main/assets/character/Down_Right_Attack.png')
-
-
-idle_animation = [idle_sheet.parse_sprite('Idle_Sheet.png')]
-
-being_hit_animation = [being_hit_sheet.parse_sprite('Being_Hit 0.ase'),
-                       being_hit_sheet.parse_sprite('Being_Hit 1.ase'),
-                       being_hit_sheet.parse_sprite('Being_Hit 2.ase'),
-                       being_hit_sheet.parse_sprite('Being_Hit 3.ase'),
-                       being_hit_sheet.parse_sprite('Being_Hit 4.ase')]
-
-block_animation = [block_sheet.parse_sprite('Block 0.ase'),
-                   block_sheet.parse_sprite('Block 1.ase'),
-                   block_sheet.parse_sprite('Block 2.ase'),
-                   block_sheet.parse_sprite('Block 3.ase'),
-                   block_sheet.parse_sprite('Block 4.ase')]
-
-up_attack_animation = [up_sheet.parse_sprite('Upper_Attack 0.ase'),
-                       up_sheet.parse_sprite('Upper_Attack 1.ase'),
-                       up_sheet.parse_sprite('Upper_Attack 2.ase'),
-                       up_sheet.parse_sprite('Upper_Attack 3.ase'),
-                       up_sheet.parse_sprite('Upper_Attack 4.ase')]
-
-down_attack_animation = [down_sheet.parse_sprite('Down_Attack 0.ase'),
-                         down_sheet.parse_sprite('Down_Attack 1.ase'),
-                         down_sheet.parse_sprite('Down_Attack 2.ase'),
-                         down_sheet.parse_sprite('Down_Attack 3.ase'),
-                         down_sheet.parse_sprite('Down_Attack 4.ase')]
-
-left_attack_animation = [left_sheet.parse_sprite('Left_Attack 0.ase'),
-                         left_sheet.parse_sprite('Left_Attack 1.ase'),
-                         left_sheet.parse_sprite('Left_Attack 2.ase'),
-                         left_sheet.parse_sprite('Left_Attack 3.ase'),
-                         left_sheet.parse_sprite('Left_Attack 4.ase')]
-
-left_up_attack_animation = [left_up_sheet.parse_sprite('Upper_Left_Attack 0.ase'),
-                            left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),
-                            left_up_sheet.parse_sprite('Upper_Left_Attack 2.ase'),
-                            left_up_sheet.parse_sprite('Upper_Left_Attack 3.ase'),
-                            left_up_sheet.parse_sprite('Upper_Left_Attack 4.ase')]
-
-left_down_attack_animation = [left_down_sheet.parse_sprite('Down_Left_Attack 0.ase'),
-                              left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),
-                              left_down_sheet.parse_sprite('Down_Left_Attack 2.ase'),
-                              left_down_sheet.parse_sprite('Down_Left_Attack 3.ase'),
-                              left_down_sheet.parse_sprite('Down_Left_Attack 4.ase')]
-
-right_attack_animation = [right_sheet.parse_sprite('Right_Attack 0.ase'),
-                          right_sheet.parse_sprite('Right_Attack 1.ase'),
-                          right_sheet.parse_sprite('Right_Attack 2.ase'),
-                          right_sheet.parse_sprite('Right_Attack 3.ase'),
-                          right_sheet.parse_sprite('Right_Attack 4.ase')]
-
-right_up_attack_animation = [right_up_sheet.parse_sprite('Upper_Right_Attack 0.ase'),
-                             right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),
-                             right_up_sheet.parse_sprite('Upper_Right_Attack 2.ase'),
-                             right_up_sheet.parse_sprite('Upper_Right_Attack 3.ase'),
-                             right_up_sheet.parse_sprite('Upper_Right_Attack 4.ase')]
-
-right_down_attack_animation = [right_down_sheet.parse_sprite('Down_Right_Attack 0.ase'),
-                               right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),
-                               right_down_sheet.parse_sprite('Down_Right_Attack 2.ase'),
-                               right_down_sheet.parse_sprite('Down_Right_Attack 3.ase'),
-                               right_down_sheet.parse_sprite('Down_Right_Attack 4.ase')]
-
-boss_idle = [boss_idle_sheet.parse_sprite('test.png')]
-
-boss_down_attack_animation = [boss_down_sheet.parse_sprite('Down_Attack 0.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 1.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 2.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 3.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 4.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 5.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 6.ase'),
-                              boss_down_sheet.parse_sprite('Down_Attack 7.ase')]
+BG_GAMEPLAY_IMG = pygame.image.load('assets/background/grid.png')
+BUTTON_PAUSE_IMG = pygame.image.load('assets/component/pause_button.png')
+BUTTON_BACK_IMG = pygame.image.load('assets/component/back_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
+BUTTON_MODE_IMG = pygame.image.load('assets/component/mode_button.png')
+PLAYER_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar.png")
+ENEMY_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar_2.png")
 
 time_per_frame = 0.08
-text_font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
+text_font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
 
 class Play:
@@ -128,11 +34,44 @@ class Play:
         self.display = display
         self.gameStateManager = gameStateManager
         self.paused = False
-        self.pause_button = Button(64 * 18, 40, BUTTON_PAUSE_IMG, 1)
+        self.pause_button = Button(64 * 18, 30, BUTTON_PAUSE_IMG, 1)
         self.back_button = Button(64 * 8.5, 64 * 4, BUTTON_BACK_IMG, 0.8)
         self.mode_button = Button(64 * 8.5, 64 * 6, BUTTON_MODE_IMG, 0.8)
         self.quit_button = Button(64 * 8.5, 64 * 8, BUTTON_QUIT_IMG, 0.8)
-        self.health_bar = HealthyBar(40, 48, 560, 36, 100)
+        self.player_health = HealthBar(40, 30, 560, 36, 100, None)
+        self.enemy_health = HealthBar(700, 700, 560, 36, 100, None)
+        self.player = Player(0, 100, self.display)
+        self.enemy = Enemy(700, 100, self.display)
+
+    def run(self):
+        self.display.blit(BG_GAMEPLAY_IMG, (0, 0))
+        if self.paused:
+            self.pause_overlay()
+        else:
+            self.pause_button.draw(self.display)
+            self.player.draw()
+            self.enemy.draw()
+            if self.enemy_health.hp != 0:
+                self.enemy_health.draw_enemy(self.display)
+            if self.player_health.hp != 0:
+                self.player_health.draw(self.display)
+            else:
+                overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
+                overlay.fill((255, 255, 255, 128))
+                self.display.blit(overlay, (0, 0))
+                self.text_display('GAME OVER', 'red', 512, 320)
+        pygame.display.flip()
+
+    def toggle_pause(self):
+        self.paused = not self.paused
+
+    def pause_overlay(self):
+        overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
+        overlay.fill((255, 255, 255, 128))
+        self.display.blit(overlay, (0, 0))
+        # self.back_button.draw(self.display)
+        # self.mode_button.draw(self.display)
+        # self.quit_button.draw(self.display)
 
     def handle_event_key(self, key):
         keys = {
@@ -146,10 +85,28 @@ class Play:
             pygame.K_KP8: self.up_attack,
             pygame.K_KP9: self.right_up_attack,
             pygame.K_SPACE: self.being_hit,
-            pygame.K_1: self.boss_down_attack,
         }
         if key in keys:
             keys[key]()
+
+    def generate_random_number(self):
+        rand_num = random.randint(1, 10)
+        while rand_num == 5:
+            rand_num = random.randint(1, 10)
+        return rand_num
+
+    def handel_scenario(self):
+        movement = {
+            1: self.enemy_left_down_attack,
+            2: self.enemy_down_attack,
+            3: self.enemy_right_down_attack,
+            4: self.enemy_left_attack,
+            6: self.enemy_right_attack,
+            7: self.enemy_left_up_attack,
+            8: self.enemy_up_attack,
+            9: self.enemy_right_up_attack,
+        }
+        movement[self.generate_random_number()]()
 
     def handel_event_mouse(self, direction):
         directions = {
@@ -166,135 +123,66 @@ class Play:
         if direction in directions:
             directions[direction]()
 
-    def boss_down_attack(self):
-        for index in range(0, len(boss_down_attack_animation)):
-            self.blink()
-            self.display.blit(boss_down_attack_animation[index], (500, -100))
-            pygame.display.flip()
-            sleep(time_per_frame)
-
     def being_hit(self):
-        for index in range(0, len(being_hit_animation)):
-            self.blink()
-            self.is_hit()
-            self.health_bar.hp = self.health_bar.hp - 2
-            self.display.blit(being_hit_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.being_hit()
 
     def block_attack(self):
-        for index in range(0, len(block_animation)):
-            self.blink()
-            self.is_block()
-            self.display.blit(block_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.block_attack()
 
     def up_attack(self):
-        for index in range(0, len(up_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(up_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.up_attack()
+        self.enemy_health.hp -= 10
+        self.enemy_being_hit()
 
     def down_attack(self):
-        for index in range(0, len(down_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(down_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.down_attack()
 
     def left_attack(self):
-        for index in range(0, len(left_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(left_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.left_attack()
 
     def right_attack(self):
-        for index in range(0, len(right_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(right_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.right_attack()
 
     def left_down_attack(self):
-        for index in range(0, len(left_down_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(left_down_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.left_down_attack()
 
     def right_down_attack(self):
-        for index in range(0, len(right_down_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(right_down_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.right_down_attack()
 
     def left_up_attack(self):
-        for index in range(0, len(left_up_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(left_up_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.left_up_attack()
 
     def right_up_attack(self):
-        for index in range(0, len(right_up_attack_animation)):
-            self.blink()
-            self.is_parry()
-            self.display.blit(right_up_attack_animation[index], (0, 0))
-            pygame.display.flip()
-            sleep(time_per_frame)
+        self.player.right_up_attack()
 
-    def run(self):
-        self.display.blit(BG_GAMEPLAY_IMG, (0, 0))
-        if self.paused:
-            self.pause_overlay()
-        else:
-            self.pause_button.draw(self.display)
-            self.display.blit(idle_animation[0], (0, 0))
-            self.display.blit(boss_down_attack_animation[0], (500, -100))
-            if self.health_bar.hp != 0:
-                self.health_bar.draw(self.display)
-            else:
-                overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
-                overlay.fill((255, 255, 255, 128))
-                self.display.blit(overlay, (0, 0))
-                self.text_display('GAME OVER', 'red', 512, 320)
-        pygame.display.flip()
+    def enemy_being_hit(self):
+        self.enemy.being_hit()
 
-    def blink(self):
-        self.display.blit(BG_GAMEPLAY_IMG, (0, 0))
-        self.pause_button.draw(self.display)
+    def enemy_block_attack(self):
+        self.enemy.block_attack()
 
-    def is_parry(self):
-        self.text_display('PARRY', '#3574a4', 100, 150)
+    def enemy_up_attack(self):
+        self.enemy.up_attack()
 
-    def is_block(self):
-        self.text_display('BLOCK', '#ffe361', 100, 150)
+    def enemy_down_attack(self):
+        self.enemy.down_attack()
 
-    def is_hit(self):
-        self.text_display('HIT', 'red', 100, 150)
+    def enemy_left_attack(self):
+        self.enemy.left_attack()
 
-    def toggle_pause(self):
-        self.paused = not self.paused
+    def enemy_right_attack(self):
+        self.enemy.right_attack()
 
-    def pause_overlay(self):
-        overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
-        overlay.fill((255, 255, 255, 128))
-        self.display.blit(overlay, (0, 0))
-        self.back_button.draw(self.display)
-        self.mode_button.draw(self.display)
-        self.quit_button.draw(self.display)
+    def enemy_left_down_attack(self):
+        self.enemy.left_down_attack()
 
-    def text_display(self, text, text_col, x, y):
-        img = text_font.render(text, True, text_col)
-        self.display.blit(img, (x, y))
+    def enemy_right_down_attack(self):
+        self.enemy.right_down_attack()
+
+    def enemy_left_up_attack(self):
+        self.enemy.left_up_attack()
+
+    def enemy_right_up_attack(self):
+        self.enemy.right_up_attack()
+
+
