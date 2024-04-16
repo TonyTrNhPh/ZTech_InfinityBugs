@@ -3,11 +3,13 @@ from os.path import isfile, join
 from os import listdir
 from button import Button
 import mysql.connector
-
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 # Variables
-BG_SCOREMENU_IMG = pygame.image.load('assets/background/leaderboard.png')
-BUTTON_START_IMG = pygame.image.load('assets/component/start_button.png')
-BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
+BG_SCOREMENU_IMG = pygame.image.load('main/assets/background/grid.png' )
+LEADERBOARD_IMG = pygame.image.load('main/assets/background/leaderboard.png')
+BUTTON_START_IMG = pygame.image.load('main/assets/component/start_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
 
 
 class Score:
@@ -16,20 +18,19 @@ class Score:
     
     def __init__(self, display, gameStateManager):
         self.start_button = Button(64 * 11, 64 * 11, BUTTON_START_IMG, 0.8)
-        self.quit_button = Button(64 * 16, 64 * 11, BUTTON_QUIT_IMG, 0.8)
+        self.quit_button = Button(800, 350, BUTTON_QUIT_IMG, 0.5)
         self.display = display
         self.gameStateManager = gameStateManager
         self.save = False
-        self.scoreboard = Scoreboard(x=750, y=150,column_width=200, row_height=40)  # Tạo một đối tượng Scoreboard
-
+        self.scoreboard = Scoreboard(x=420, y=110,column_width=200, row_height=40)  # Tạo một đối tượng Scoreboard
+        # Draws the score menu on
+        self.text_field = TextField(x=500, y=350, width=200, height=30, font_size=25, instruction_text="Enter your name")
     def run(self):
         self.display.blit(BG_SCOREMENU_IMG, (0, 0))
-        if self.save:
-            self.save_overlay()
-        else:
-            self.start_button.draw(self.display)
-            self.quit_button.draw(self.display)
-            self.scoreboard.draw(self.display)
+        self.display.blit(LEADERBOARD_IMG,(260,0))
+        self.scoreboard.draw(self.display)
+        self.text_field.draw(self.display)
+        self.quit_button.draw(self.display)
         pygame.display.flip()
 
     def toggle_save(self):
@@ -39,7 +40,9 @@ class Score:
         overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
         overlay.fill((255, 255, 255, 128))
         self.display.blit(overlay, (0, 0))
-
+    def handle_events(self, events):  # Thêm phương thức xử lý sự kiện
+        for event in events:
+            self.text_field.handle_event(event)  # Gọi phương thức xử lý sự kiện của TextField
 class Scoreboard:
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -84,6 +87,7 @@ class Scoreboard:
                 print("Error:", err)
         else:
             print("Invalid score input. Please enter an integer.")
+    
 
     def draw(self, surface):
         mycursor = self.mydb.cursor()
@@ -103,7 +107,7 @@ class Scoreboard:
         surface.blit(score_label, (self.x + 2 * self.column_width , self.y + 5))
 
         # Vẽ dữ liệu
-        for i, (id, name, score) in enumerate(self.scores):
+        for i, (id, name, score) in enumerate(self.scores[:3]):
             text_surface = self.font.render(f"{i+1}.", True, self.BLACK)
             surface.blit(text_surface, (self.x , self.y + self.row_height * (i + 1) + 5))
 
@@ -117,3 +121,55 @@ class Scoreboard:
 
     def sort_scores_descending(self):
         self.scores.sort(key=lambda x: x[2], reverse=True)
+
+class TextField:
+    def __init__(self, x, y, width, height, font_size=25, instruction_text=""):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.font_size = font_size
+        self.font = pygame.font.Font(None, font_size)
+        self.text = ''
+        self.active = False
+        self.rect = pygame.Rect(x, y, width, height)
+        self.instruction_text = instruction_text
+    def isClicked(self):
+        action = False
+        pos = pygame.mouse.get_pos()
+        # check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action = True
+        else:
+            self.clicked = False
+        return action
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.active = True
+            else:
+                self.active = False
+        if event.type == pygame.KEYDOWN:
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    # Khi nhấn Enter, không làm gì cả
+                    pass
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    # Chỉ chấp nhận các ký tự từ bàn phím
+                    if event.unicode.isalnum() or event.unicode in [' ', '.']:
+                        self.text += event.unicode
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, BLACK, self.rect, 2)
+
+        # Vẽ văn bản hướng dẫn
+        instruction_surface = self.font.render(self.instruction_text, True, BLACK)
+        surface.blit(instruction_surface, (self.rect.x - 150, self.rect.y + 5))
+
+        # Vẽ nội dung của ô văn bản
+        text_surface = self.font.render(self.text, True, BLACK)
+        surface.blit(text_surface, (self.rect.x + 5, self.rect.y + 5))        

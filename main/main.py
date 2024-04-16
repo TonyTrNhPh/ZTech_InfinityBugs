@@ -95,14 +95,23 @@ class onScreen:
                             self.gameStateManager.set_state('score')
                             self.play.health_bar.hp = self.play.health_bar.max_hp
                 elif self.gameStateManager.get_state() == 'score':
-                    if self.score.start_button.isClicked():
-                        self.score.toggle_save()
-                        
-                    if self.gameStateManager.get_state() == 'score':
-                        self.states[self.gameStateManager.get_state()].run()
-                    else:
-                        # Chạy các trạng thái khác
-                        self.states[self.gameStateManager.get_state()].run()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if self.score.text_field.isClicked:
+                            self.score.text_field.active = True
+                        else:
+                            self.score.text_field.active = False
+                    if event.type == pygame.KEYDOWN:
+                        if self.score.text_field.active:
+                            if event.key == pygame.K_RETURN:
+                                self.score.scoreboard.add_score(self.score.text_field.text, "200")
+                                self.score.text_field.text = ''
+                            elif event.key == pygame.K_BACKSPACE:
+                                self.score.text_field.text = self.score.text_field.text[:-1]
+                            else:
+                                # Chỉ chấp nhận các ký tự từ bàn phím
+                                if event.unicode.isalnum() or event.unicode in [' ', '.']:
+                                    self.score.text_field.text += event.unicode    
+                    
                     if self.score.quit_button.isClicked():
                         self.gameStateManager.set_state('start')
 
