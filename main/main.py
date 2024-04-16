@@ -23,7 +23,7 @@ WIDTH, HEIGHT = 1280, 800
 class onScreen:
     last_attack = 0
     time_now = 0
-    cool_down = 600
+    cool_down = 1200
     delay_tracking = 200
 
     def __init__(self):
@@ -77,7 +77,10 @@ class onScreen:
                     elif event.type == pygame.MOUSEBUTTONUP:
                         direction = self.mouse_tracker.stop_recording()
                         print(direction)
-                        self.play.handel_event_mouse(direction)
+                        if self.time_now - self.last_attack >= self.cool_down:
+                            self.last_attack = self.time_now
+                            self.play.handel_event_mouse(direction)
+                            
                     if event.type == pygame.KEYDOWN:
                         # Press ESC on the keyboard to pause or unpause the game
                         if event.key == pygame.K_ESCAPE:

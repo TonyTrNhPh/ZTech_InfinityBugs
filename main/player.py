@@ -116,23 +116,12 @@ class Player:
             sleep(time_per_frame)
 
     def up_attack(self):
-        # for index in range(0, len(up_attack_animation)):
-        #     self.update_each_frame()
-        #     self.is_parry()
-        #     self.display.blit(up_attack_animation[index], (self.x, self.y))
-        #     pygame.display.flip()
-        #     sleep(time_per_frame)
-        def animate_attack():
-            for index in range(len(up_attack_animation)):
-                self.update_each_frame()
-                self.is_parry()
-                self.display.blit(up_attack_animation[index], (self.x, self.y))
-                pygame.display.flip()
-                sleep(time_per_frame)
-
-        # Create a thread and start it
-        attack_thread = threading.Thread(target=animate_attack)
-        attack_thread.start()
+        for index in range(0, len(up_attack_animation)):
+            self.update_each_frame()
+            self.is_parry()
+            self.display.blit(up_attack_animation[index], (self.x, self.y))
+            pygame.display.flip()
+            sleep(time_per_frame)
 
     def down_attack(self):
         for index in range(0, len(down_attack_animation)):

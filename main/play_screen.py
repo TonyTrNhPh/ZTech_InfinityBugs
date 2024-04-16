@@ -75,16 +75,16 @@ class Play:
 
     def handle_event_key(self, key):
         keys = {
-            pygame.K_KP1: self.left_down_attack,
-            pygame.K_KP2: self.down_attack,
-            pygame.K_KP3: self.right_down_attack,
-            pygame.K_KP4: self.left_attack,
-            pygame.K_KP5: self.block_attack,
-            pygame.K_KP6: self.right_attack,
-            pygame.K_KP7: self.left_up_attack,
-            pygame.K_KP8: self.up_attack,
-            pygame.K_KP9: self.right_up_attack,
-            pygame.K_SPACE: self.being_hit,
+            pygame.K_1: self.enemy_left_down_attack,
+            pygame.K_2: self.enemy_down_attack,
+            pygame.K_3: self.enemy_right_down_attack,
+            pygame.K_4: self.enemy_left_attack,
+            pygame.K_5: self.enemy_block_attack,
+            pygame.K_6: self.enemy_right_attack,
+            pygame.K_7: self.enemy_left_up_attack,
+            pygame.K_8: self.enemy_up_attack,
+            pygame.K_9: self.enemy_right_up_attack,
+            pygame.K_SPACE: self.enemy_being_hit,
         }
         if key in keys:
             keys[key]()
@@ -94,6 +94,7 @@ class Play:
         while rand_num == 5:
             rand_num = random.randint(1, 10)
         return rand_num
+
 
     def handel_scenario(self):
         movement = {
