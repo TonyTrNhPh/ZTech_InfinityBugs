@@ -97,6 +97,12 @@ class onScreen:
                 elif self.gameStateManager.get_state() == 'score':
                     if self.score.start_button.isClicked():
                         self.score.toggle_save()
+                        
+                    if self.gameStateManager.get_state() == 'score':
+                        self.states[self.gameStateManager.get_state()].run()
+                    else:
+                        # Chạy các trạng thái khác
+                        self.states[self.gameStateManager.get_state()].run()
                     if self.score.quit_button.isClicked():
                         self.gameStateManager.set_state('start')
 
