@@ -3,7 +3,7 @@ from time import sleep
 
 import pygame
 
-scenario_number_generate = 3
+scenario_number_generate = 2
 
 
 # Function to generate a random list

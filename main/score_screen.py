@@ -5,9 +5,9 @@ from button import Button
 import mysql.connector
 
 # Variables
-BG_SCOREMENU_IMG = pygame.image.load(join("main","assets", "background", "score_screen.png"))
-BUTTON_START_IMG = pygame.image.load(join("main","assets", "component", "start_button.png"))
-BUTTON_QUIT_IMG = pygame.image.load(join("main","assets", "component", "quit_button.png"))
+BG_SCOREMENU_IMG = pygame.image.load('assets/background/leaderboard.png')
+BUTTON_START_IMG = pygame.image.load('assets/component/start_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
 
 
 class Score:

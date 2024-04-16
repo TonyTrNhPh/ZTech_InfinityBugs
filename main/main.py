@@ -12,7 +12,6 @@ from game_state_manager import GameStateManager
 from button import Button
 from mouse_track import MouseTrackerApp
 
-pygame.init()
 pygame.display.set_caption("Infinity Bugs")
 
 # Variables
@@ -43,13 +42,12 @@ class onScreen:
 
     def run(self):
         while self.running:
+            self.clock.tick(FPS)
             for event in pygame.event.get():
                 self.time_now = pygame.time.get_ticks()
-                # Click X on window to quit the game
                 if event.type == pygame.QUIT:
                     self.running = False
                     break
-                # Separate the screen 
                 if self.gameStateManager.get_state() == 'start':
                     # Click Quit button to quit the game
                     if self.start.quit_button.isClicked():
@@ -61,7 +59,6 @@ class onScreen:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         print('Clicked')
                 elif self.gameStateManager.get_state() == 'play':
-                    # Click Pause button to pause the game
                     if self.play.pause_button.isClicked():
                         self.play.paused = True
                     if self.play.back_button.isClicked():
@@ -73,15 +70,14 @@ class onScreen:
                         pos_x = pygame.mouse.get_pos()[0]
                         pos_y = pygame.mouse.get_pos()[1]
                         self.mouse_tracker.start_recording(pos_x, pos_y)
-
                     elif event.type == pygame.MOUSEMOTION:
                         pos_x = pygame.mouse.get_pos()[0]
                         pos_y = pygame.mouse.get_pos()[1]
                         self.mouse_tracker.track_mouse(pos_x, pos_y)
                     elif event.type == pygame.MOUSEBUTTONUP:
-                        self.mouse_tracker.stop_recording()
-
-                        self.play.handle_event_key(dir)
+                        direction = self.mouse_tracker.stop_recording()
+                        print(direction)
+                        self.play.handel_event_mouse(direction)
                     if event.type == pygame.KEYDOWN:
                         # Press ESC on the keyboard to pause or unpause the game
                         if event.key == pygame.K_ESCAPE:
@@ -91,12 +87,10 @@ class onScreen:
                         elif self.time_now - self.last_attack >= self.cool_down:
                             self.last_attack = self.time_now
                             self.play.handle_event_key(event.key)
-                            if self.play.health_bar.hp == 0:
-                                self.play.run()
-                                sleep(3)
-                                self.gameStateManager.set_state('score')
-                                self.play.health_bar.hp = self.play.health_bar.max_hp
-
+                        if self.play.player_health == 0:
+                            sleep(3)
+                            self.gameStateManager.set_state('score')
+                            self.play.health_bar.hp = self.play.health_bar.max_hp
                 elif self.gameStateManager.get_state() == 'score':
                     if self.score.start_button.isClicked():
                         self.score.toggle_save()
@@ -134,29 +128,6 @@ class onScreen:
                 self.play.quit_button.undraw(self.screen)
                 self.start.start_button.undraw(self.screen)
                 self.start.quit_button.undraw(self.screen)
-
-            self.clock.tick(FPS)
-
-    def check_direction(self, prev_mouse_position, mouse_tracking, prev_time):
-        if mouse_tracking:
-            current_time = pygame.time.get_ticks()
-            if current_time - prev_time >= self.delay_tracking:
-                mouse_position = pygame.mouse.get_pos()
-                dx = mouse_position[0] - prev_mouse_position[0]
-                dy = mouse_position[1] - prev_mouse_position[1]
-                direction = ""
-                if dy > 0:
-                    direction += "Down "
-                elif dy < 0:
-                    direction += "Up "
-                if dx > 0:
-                    direction += "Right "
-                elif dx < 0:
-                    direction += "Left "
-                if direction:
-                    print("Mouse direction:", direction)
-                prev_mouse_position = mouse_position
-                prev_time = current_time
 
 
 if __name__ == "__main__":  # Run only main function

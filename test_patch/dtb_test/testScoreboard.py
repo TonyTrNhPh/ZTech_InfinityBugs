@@ -72,7 +72,7 @@ class Scoreboard:
             port="3306",
             user="root",
             password="12345",
-            database="scoreboard_db"
+            database="infinity_bugs"
         )
         self.load_scores()  # Tải dữ liệu từ cơ sở dữ liệu khi khởi tạo
         self.sort_scores_descending()  # Sắp xếp dữ liệu ngay sau khi tải
