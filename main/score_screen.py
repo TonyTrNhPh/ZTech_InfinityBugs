@@ -80,9 +80,9 @@ class Scoreboard:
         # Kết nối với cơ sở dữ liệu MySQL
         self.mydb = mysql.connector.connect(
             host="localhost",
-            port="3306",
+            port="3307",
             user="root",
-            password="12345",
+            password="",
             database="scoreboard_db"
         )
         self.load_scores()  # Tải dữ liệu từ cơ sở dữ liệu khi khởi tạo
@@ -94,7 +94,7 @@ class Scoreboard:
         self.scores = mycursor.fetchall()
 
     def add_score(self, name, score):
-        if score.isdigit():
+        if str(score).isdigit():
             mycursor = self.mydb.cursor()
             sql = "INSERT INTO scores (name, score) VALUES (%s, %s)"
             val = (name, score)

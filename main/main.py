@@ -61,8 +61,6 @@ class onScreen:
                     # Click Start button to play the game
                     if self.start.start_button.isClicked():
                         self.gameStateManager.set_state('play')
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        print('Clicked')
                 elif self.gameStateManager.get_state() == 'play':
                     if self.play.pause_button.isClicked():
                         self.play.paused = True
@@ -113,7 +111,7 @@ class onScreen:
                                 # Lấy tên từ TextField
                                 name = self.score.text_field.text
                                 # Lấy điểm số từ TextField hoặc nơi khác
-                                score = "100"  # Thay bằng phương thức hoặc giá trị thực tế
+                                score =  self.play.score # Thay bằng phương thức hoặc giá trị thực tế
                                 # Thêm bản ghi mới vào bảng điểm
                                 self.score.scoreboard.update_or_add_score(name, score)
                                 # Sắp xếp lại bảng điểm
