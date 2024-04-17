@@ -2,23 +2,27 @@ import pygame
 import threading
 from sprite_sheet import Sprite
 from time import sleep
+import random
 
 # IMAGES PATH // do not erase
-idle_sheet = Sprite('assets/boss/Idle_pose.png')
-being_hit_sheet = Sprite('assets/boss/Being_Hit.png')
-block_sheet = Sprite('assets/boss/Block.png')
-up_sheet = Sprite('assets/boss/Upper_Attack.png')
-down_sheet = Sprite('assets/boss/Down_Attack.png')
-left_sheet = Sprite('assets/boss/Left_Attack.png')
-left_up_sheet = Sprite('assets/boss/Upper_Left_Attack.png')
-left_down_sheet = Sprite('assets/boss/Down_Left_Attack.png')
-right_sheet = Sprite('assets/boss/Right_Attack.png')
-right_up_sheet = Sprite('assets/boss/Upper_Right_Attack.png')
-right_down_sheet = Sprite('assets/boss/Down_Right_Attack.png')
+idle_sheet = Sprite('assets/enemy/Idle_pose.png')
+being_hit_sheet = Sprite('assets/enemy/Being_Hit.png')
+being_stun_sheet = Sprite('assets/enemy/Stun_pose.png')
+block_sheet = Sprite('assets/enemy/Block.png')
+up_sheet = Sprite('assets/enemy/Upper_Attack.png')
+down_sheet = Sprite('assets/enemy/Down_Attack.png')
+left_sheet = Sprite('assets/enemy/Left_Attack.png')
+left_up_sheet = Sprite('assets/enemy/Upper_Left_Attack.png')
+left_down_sheet = Sprite('assets/enemy/Down_Left_Attack.png')
+right_sheet = Sprite('assets/enemy/Right_Attack.png')
+right_up_sheet = Sprite('assets/enemy/Upper_Right_Attack.png')
+right_down_sheet = Sprite('assets/enemy/Down_Right_Attack.png')
 BG_GAMEPLAY_IMG = pygame.image.load('assets/background/reset2.png')
 
 # ANIMATION LIST // do not erase
 idle_animation = [idle_sheet.parse_sprite('Idle_pose.ase')]
+
+being_stun_animation = [being_stun_sheet.parse_sprite('stun_pose.ase')]
 
 being_hit_animation = [being_hit_sheet.parse_sprite('Being_Hit 0.ase'),
                        being_hit_sheet.parse_sprite('Being_Hit 1.ase'),
@@ -26,67 +30,59 @@ being_hit_animation = [being_hit_sheet.parse_sprite('Being_Hit 0.ase'),
                        being_hit_sheet.parse_sprite('Being_Hit 3.ase'),
                        being_hit_sheet.parse_sprite('Being_Hit 4.ase')]
 
-block_animation = [block_sheet.parse_sprite('Block 0.ase'),
-                   block_sheet.parse_sprite('Block 1.ase'),
+block_animation = [block_sheet.parse_sprite('Block 1.ase'),
                    block_sheet.parse_sprite('Block 2.ase'),
                    block_sheet.parse_sprite('Block 3.ase'),
-                   block_sheet.parse_sprite('Block 4.ase')]
+                   block_sheet.parse_sprite('Block 4.ase'),
+                   block_sheet.parse_sprite('Block 0.ase')]
 
-up_attack_animation = [up_sheet.parse_sprite('Upper_Attack 0.ase'),
-                       up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),
+up_attack_animation = [up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),up_sheet.parse_sprite('Upper_Attack 1.ase'),
                        up_sheet.parse_sprite('Upper_Attack 2.ase'),
                        up_sheet.parse_sprite('Upper_Attack 3.ase'),
                        up_sheet.parse_sprite('Upper_Attack 4.ase'),
-                       idle_sheet.parse_sprite('Idle_pose.ase')]
+                       up_sheet.parse_sprite('Upper_Attack 0.ase')]
 
-down_attack_animation = [down_sheet.parse_sprite('Down_Attack 0.ase'),
-                         down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),
+down_attack_animation = [down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),down_sheet.parse_sprite('Down_Attack 1.ase'),
                          down_sheet.parse_sprite('Down_Attack 2.ase'),
                          down_sheet.parse_sprite('Down_Attack 3.ase'),
                          down_sheet.parse_sprite('Down_Attack 4.ase'),
-                         idle_sheet.parse_sprite('Idle_pose.ase')]
+                         down_sheet.parse_sprite('Down_Attack 0.ase')]
 
-left_attack_animation = [left_sheet.parse_sprite('Left_Attack 0.ase'),
-                         left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),
+left_attack_animation = [left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),left_sheet.parse_sprite('Left_Attack 1.ase'),
                          left_sheet.parse_sprite('Left_Attack 2.ase'),
                          left_sheet.parse_sprite('Left_Attack 3.ase'),
                          left_sheet.parse_sprite('Left_Attack 4.ase'),
-                         idle_sheet.parse_sprite('Idle_pose.ase')]
+                         left_sheet.parse_sprite('Left_Attack 0.ase')]
 
-left_up_attack_animation = [left_up_sheet.parse_sprite('Upper_Left_Attack 0.ase'),
-                            left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),
+left_up_attack_animation = [left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),left_up_sheet.parse_sprite('Upper_Left_Attack 1.ase'),
                             left_up_sheet.parse_sprite('Upper_Left_Attack 2.ase'),
                             left_up_sheet.parse_sprite('Upper_Left_Attack 3.ase'),
                             left_up_sheet.parse_sprite('Upper_Left_Attack 4.ase'),
-                            idle_sheet.parse_sprite('Idle_pose.ase')]
+                            left_up_sheet.parse_sprite('Upper_Left_Attack 0.ase')]
 
-left_down_attack_animation = [left_down_sheet.parse_sprite('Down_Left_Attack 0.ase'),
-                              left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),
+left_down_attack_animation = [left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),left_down_sheet.parse_sprite('Down_Left_Attack 1.ase'),
                               left_down_sheet.parse_sprite('Down_Left_Attack 2.ase'),
                               left_down_sheet.parse_sprite('Down_Left_Attack 3.ase'),
                               left_down_sheet.parse_sprite('Down_Left_Attack 4.ase'),
-                              idle_sheet.parse_sprite('Idle_pose.ase')]
+                              left_down_sheet.parse_sprite('Down_Left_Attack 0.ase')]
 
-right_attack_animation = [right_sheet.parse_sprite('Right_Attack 0.ase'),
-                          right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),
+right_attack_animation = [right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),right_sheet.parse_sprite('Right_Attack 1.ase'),
                           right_sheet.parse_sprite('Right_Attack 2.ase'),
                           right_sheet.parse_sprite('Right_Attack 3.ase'),
                           right_sheet.parse_sprite('Right_Attack 4.ase'),
-                          idle_sheet.parse_sprite('Idle_pose.ase')]
+                          right_sheet.parse_sprite('Right_Attack 0.ase')]
 
-right_up_attack_animation = [right_up_sheet.parse_sprite('Upper_Right_Attack 0.ase'),
-                             right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),
+right_up_attack_animation = [right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),right_up_sheet.parse_sprite('Upper_Right_Attack 1.ase'),
                              right_up_sheet.parse_sprite('Upper_Right_Attack 2.ase'),
                              right_up_sheet.parse_sprite('Upper_Right_Attack 3.ase'),
                              right_up_sheet.parse_sprite('Upper_Right_Attack 4.ase'),
-                             idle_sheet.parse_sprite('Idle_pose.ase')]
+                             right_up_sheet.parse_sprite('Upper_Right_Attack 0.ase')]
 
-right_down_attack_animation = [right_down_sheet.parse_sprite('Down_Right_Attack 0.ase'),
-                               right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),
+right_down_attack_animation = [right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),right_down_sheet.parse_sprite('Down_Right_Attack 1.ase'),
                                right_down_sheet.parse_sprite('Down_Right_Attack 2.ase'),
                                right_down_sheet.parse_sprite('Down_Right_Attack 3.ase'),
                                right_down_sheet.parse_sprite('Down_Right_Attack 4.ase'),
-                               idle_sheet.parse_sprite('Idle_pose.ase')]
+                               right_down_sheet.parse_sprite('Down_Right_Attack 0.ase')]
 
 time_per_frame = 0.08
 
@@ -98,11 +94,13 @@ class Enemy:
         self.scale = scale
         self.rect = pygame.Rect((x, y, 600, 600))
         self.display = display
-        self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)  # Create a surface with an alpha channel
+        # Create a surface with an alpha channel
+        self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)
         self.mask.set_alpha(0)
         self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
     def draw(self):
+        self.update_each_frame()
         scaled_animation = pygame.transform.scale(idle_animation[0], (int(idle_animation[0].get_width() * self.scale),
                                                                       int(idle_animation[0].get_height() * self.scale)))
         self.display.blit(scaled_animation, (self.x, self.y))
@@ -110,29 +108,36 @@ class Enemy:
     def update_each_frame(self):
         self.display.blit(BG_GAMEPLAY_IMG, self.rect.topleft)
 
+    def being_stun(self):
+        self.update_each_frame()
+        scaled_animation = pygame.transform.scale(being_stun_animation[0], (int(being_stun_animation[0].get_width() * self.scale),
+                                                                       int(being_stun_animation[0].get_height() * self.scale)))
+        self.display.blit(scaled_animation, (self.x, self.y))
+
     def being_hit(self):
-        # for index in range(0, len(being_hit_animation)):
-        #     self.update_each_frame()
-        #     scaled_animation = pygame.transform.scale(being_hit_animation[index],
-        #                                               (int(being_hit_animation[index].get_width() * self.scale),
-        #                                                int(being_hit_animation[index].get_height() * self.scale)))
-        #     self.display.blit(scaled_animation, (self.x, self.y))
-        #     pygame.display.flip()
-        #     sleep(time_per_frame)
+        for index in range(0, len(being_hit_animation)):
+            self.update_each_frame()
+            scaled_animation = pygame.transform.scale(being_hit_animation[index],
+                                                      (int(being_hit_animation[index].get_width() * self.scale),
+                                                       int(being_hit_animation[index].get_height() * self.scale)))
+            self.display.blit(scaled_animation, (self.x, self.y))
+            pygame.display.flip()
+            sleep(time_per_frame)
+
         def animate_hit():
             for index in range(len(being_hit_animation)):
                 self.update_each_frame()
                 scaled_animation = pygame.transform.scale(being_hit_animation[index],
                                                           (int(being_hit_animation[index].get_width() * self.scale),
                                                            int(being_hit_animation[
-                                                                   index].get_height() * self.scale)))
+                                                               index].get_height() * self.scale)))
                 self.display.blit(scaled_animation, (self.x, self.y))
                 pygame.display.flip()
                 sleep(time_per_frame)  # Use time.sleep() instead of sleep()
 
         # Create a thread and start it
-        hit_thread = threading.Thread(target=animate_hit)
-        hit_thread.start()
+        # hit_thread = threading.Thread(target=animate_hit)
+        # hit_thread.start()
 
     def block_attack(self):
         for index in range(0, len(block_animation)):
@@ -190,7 +195,7 @@ class Enemy:
             scaled_animation = pygame.transform.scale(left_down_attack_animation[index],
                                                       (int(left_down_attack_animation[index].get_width() * self.scale),
                                                        int(left_down_attack_animation[
-                                                               index].get_height() * self.scale)))
+                                                           index].get_height() * self.scale)))
             self.display.blit(scaled_animation, (self.x, self.y))
             pygame.display.flip()
             sleep(time_per_frame)
@@ -201,7 +206,7 @@ class Enemy:
             scaled_animation = pygame.transform.scale(right_down_attack_animation[index],
                                                       (int(right_down_attack_animation[index].get_width() * self.scale),
                                                        int(right_down_attack_animation[
-                                                               index].get_height() * self.scale)))
+                                                           index].get_height() * self.scale)))
             self.display.blit(scaled_animation, (self.x, self.y))
             pygame.display.flip()
             sleep(time_per_frame)
@@ -238,3 +243,15 @@ class Enemy:
     def text_display(self, text, text_col, x, y):
         img = self.font.render(text, True, text_col)
         self.display.blit(img, (x, y))
+
+    def generate_random_list(self):
+        numbers = [num for num in range(1, 10) if num != 5]
+        random.shuffle(numbers)
+        length = random.randint(2, 6)
+        return numbers[:length]
+
+    def generate_random_scenario(self, scenario_number_generate):
+        return [self.generate_random_list() for _ in range(scenario_number_generate)]
+
+
+

@@ -15,23 +15,23 @@ class Button():
     def draw(self, surface):
         surface.blit(self.image, (self.rect.x, self.rect.y))
 
-
     def isClicked(self):
         action = False
-        pos = pygame.mouse.get_pos()
-        # check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                self.clicked = True
-                action = True
-        else:
-            self.clicked = False
-        return action
-
-    def undraw(self, surface):
         if self.visible:
-            pygame.draw.rect(surface,(0,0,0),self.rect)
-            self.visible = False
+            pos = pygame.mouse.get_pos()
+            # check mouseover and clicked conditions
+            if self.rect.collidepoint(pos):
+                if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                    self.clicked = True
+                    action = True
+            else:
+                self.clicked = False
+            return action
+        else:
+            return action
+
+    def unClicked(self, surface):
+        self.visible = not self.visible
 
     def toggle_visible(self):
         self.visible = not  self.visible
