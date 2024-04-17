@@ -1,20 +1,16 @@
-import mysql.connector
 import pygame
+from os.path import isfile, join
+from os import listdir
 from button import Button
+import mysql.connector
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 # Variables
-BG_SCOREMENU_IMG = pygame.image.load('assets/background/grid.png')
-LEADERBOARD_IMG = pygame.image.load('assets/background/leaderboard.png')
-BUTTON_START_IMG = pygame.image.load('assets/component/start_button.png')
-BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
-
-
-# BG_SCOREMENU_IMG = pygame.image.load('main/assets/background/grid.png' )
-# LEADERBOARD_IMG = pygame.image.load('main/assets/background/leaderboard.png')
-# BUTTON_START_IMG = pygame.image.load('main/assets/component/start_button.png')
-# BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
+BG_SCOREMENU_IMG = pygame.image.load('main/assets/background/grid.png')
+LEADERBOARD_IMG = pygame.image.load('main/assets/background/leaderboard.png')
+BUTTON_START_IMG = pygame.image.load('main/assets/component/start_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
 
 
 class Score:
@@ -22,13 +18,20 @@ class Score:
     BLACK = (0, 0, 0)
 
     def __init__(self, display, gameStateManager):
-        self.quit_button = Button(540, 660, BUTTON_QUIT_IMG, 0.8)
+        self.is_save = False
+        self.name = ''
+        self.score = ''
+        self.rank = ''
+        self.start_button = Button(64 * 11, 64 * 11, BUTTON_START_IMG, 0.8)
+        self.quit_button = Button(800, 350, BUTTON_QUIT_IMG, 0.5)
         self.display = display
         self.gameStateManager = gameStateManager
+        self.save = False
         self.scoreboard = Scoreboard(x=420, y=110, column_width=200, row_height=40)  # Tạo một đối tượng Scoreboard
         # Draws the score menu on
         self.text_field = TextField(x=500, y=350, width=200, height=30, font_size=25,
                                     instruction_text="Enter your name")
+        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
 
     def run(self):
         self.display.blit(BG_SCOREMENU_IMG, (0, 0))
@@ -36,11 +39,28 @@ class Score:
         self.scoreboard.draw(self.display)
         self.text_field.draw(self.display)
         self.quit_button.draw(self.display)
+        if self.is_save:
+            self.draw_text(self.name, self.score, self.rank, 420, 300)
         pygame.display.flip()
+
+    def toggle_save(self):
+        self.save = not self.save
+
+    def save_overlay(self):
+        overlay = pygame.Surface((self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
+        overlay.fill((255, 255, 255, 128))
+        self.display.blit(overlay, (0, 0))
 
     def handle_events(self, events):  # Thêm phương thức xử lý sự kiện
         for event in events:
             self.text_field.handle_event(event)  # Gọi phương thức xử lý sự kiện của TextField
+
+    def draw_text(self, name, score, rank, x, y):
+        font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 24)
+        text = f"Rank: {rank}   Name:{name}    Score:{score}"
+        text_surface = font.render(text, True, BLACK)
+        text_rect = text_surface.get_rect(topleft=(x, y))
+        self.display.blit(text_surface, text_rect)
 
 
 class Scoreboard:
@@ -55,13 +75,14 @@ class Scoreboard:
         self.font_size = font_size
         self.font = pygame.font.Font(None, font_size)
         self.scores = []  # Sử dụng danh sách các cặp (tên, điểm số)
+        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 24)
 
         # Kết nối với cơ sở dữ liệu MySQL
         self.mydb = mysql.connector.connect(
             host="localhost",
             port="3306",
             user="root",
-            password="",
+            password="12345",
             database="scoreboard_db"
         )
         self.load_scores()  # Tải dữ liệu từ cơ sở dữ liệu khi khởi tạo
@@ -89,6 +110,47 @@ class Scoreboard:
         else:
             print("Invalid score input. Please enter an integer.")
 
+    def update_or_add_score(self, name, score):
+        # Tìm kiếm tên trong cơ sở dữ liệu
+        for i, (id, n, s) in enumerate(self.scores):
+            if n == name:
+                current_score = int(s)
+                new_score = int(score)
+                # Nếu tên đã tồn tại:
+                if new_score > current_score:
+                    # Nếu điểm số mới lớn hơn điểm số hiện tại, cập nhật điểm số mới
+                    self.update_score(id, score)
+                return
+        # Nếu tên chưa tồn tại, thêm một bản ghi mới vào cơ sở dữ liệu
+        self.add_score(name, score)
+
+    def update_score(self, id, score):
+        mycursor = self.mydb.cursor()
+        sql = "UPDATE scores SET score = %s WHERE id = %s"
+        val = (score, id)
+        try:
+            mycursor.execute(sql, val)
+            self.mydb.commit()
+            print("Score updated successfully!")
+            self.load_scores()  # Tải lại dữ liệu từ cơ sở dữ liệu
+        except mysql.connector.Error as err:
+            print("Error:", err)
+
+    def get_rank_for_name(self, name):
+        for i, (id, n, s) in enumerate(self.scores):
+            if n == name:
+                return i + 1
+        return None  # Trả về None nếu không tìm thấy tên trong bảng xếp hạng
+
+    # def draw_text(self, surface, text, x,y):
+    #     font = pygame.font.Font(None, 24)
+    #     text_surface = font.render(text, True, self.BLACK)
+    #     surface.blit(text_surface, text_rect)
+
+    def text_display(self, text, text_col, x, y, surface):
+        img = self.font.render(text, True, text_col)
+        surface.blit(img, (x, y))
+
     def draw(self, surface):
         mycursor = self.mydb.cursor()
         mycursor.execute("SELECT * FROM scores")
@@ -108,7 +170,7 @@ class Scoreboard:
 
         # Vẽ dữ liệu
         for i, (id, name, score) in enumerate(self.scores[:3]):
-            text_surface = self.font.render(f"{i + 1}.", True, self.BLACK)
+            text_surface = self.font.render(str(i + 1) + ".", True, self.BLACK)
             surface.blit(text_surface, (self.x, self.y + self.row_height * (i + 1) + 5))
 
             text_surface = self.font.render(name, True, self.BLACK)

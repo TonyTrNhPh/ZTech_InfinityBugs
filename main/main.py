@@ -110,8 +110,24 @@ class onScreen:
                     if event.type == pygame.KEYDOWN:
                         if self.score.text_field.active:
                             if event.key == pygame.K_RETURN:
-                                self.score.scoreboard.add_score(self.score.text_field.text, "200")
+                                # Lấy tên từ TextField
+                                name = self.score.text_field.text
+                                # Lấy điểm số từ TextField hoặc nơi khác
+                                score = "100"  # Thay bằng phương thức hoặc giá trị thực tế
+                                # Thêm bản ghi mới vào bảng điểm
+                                self.score.scoreboard.update_or_add_score(name, score)
+                                # Sắp xếp lại bảng điểm
+                                self.score.scoreboard.sort_scores_descending()
+                                # Xác định thứ hạng của bản ghi mới
+                                rank = self.score.scoreboard.get_rank_for_name(name)
+                                print(f"Name: {name}, Score: {score}, Rank: {rank}")
+                                pygame.display.update()
                                 self.score.text_field.text = ''
+                                self.score.is_save = True
+                                self.score.name = name
+                                self.score.score = score
+                                self.score.rank = rank
+
                             elif event.key == pygame.K_BACKSPACE:
                                 self.score.text_field.text = self.score.text_field.text[:-1]
                             else:
