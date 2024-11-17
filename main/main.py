@@ -38,10 +38,11 @@ class onScreen:
         # self.gameStateManager = GameStateManager('score')
         self.start = Start(self.screen, self.gameStateManager)
         self.play = Play(self.screen, self.gameStateManager)
-        self.score = Score(self.screen, self.gameStateManager)
+        # self.score = Score(self.screen, self.gameStateManager)
         self.states = {'start': self.start,
                        'play': self.play,
-                       'score': self.score}
+                       # 'score': self.score
+                       }
         self.running = True
         self.mouse_tracker = MouseTrackerApp(self.screen)
 

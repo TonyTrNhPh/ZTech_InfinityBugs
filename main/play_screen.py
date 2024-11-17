@@ -16,16 +16,16 @@ pygame.init()
 pygame.display.set_caption("Infinity Bugs")
 
 # Variables
-BG_GAMEPLAY_IMG = pygame.image.load('main/assets/background/grid.png')
-BUTTON_PAUSE_IMG = pygame.image.load('main/assets/component/pause_button.png')
-BUTTON_BACK_IMG = pygame.image.load('main/assets/component/back_button.png')
-BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
-BUTTON_MODE_IMG = pygame.image.load('main/assets/component/mode_button.png')
-PLAYER_HEALTH_BAR_IMG = pygame.image.load("main/assets/component/health_bar.png")
-ENEMY_HEALTH_BAR_IMG = pygame.image.load("main/assets/component/health_bar_2.png")
+BG_GAMEPLAY_IMG = pygame.image.load('assets/background/grid.png')
+BUTTON_PAUSE_IMG = pygame.image.load('assets/component/pause_button.png')
+BUTTON_BACK_IMG = pygame.image.load('assets/component/back_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
+BUTTON_MODE_IMG = pygame.image.load('assets/component/mode_button.png')
+PLAYER_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar.png")
+ENEMY_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar_2.png")
 
 time_per_frame = 0.08
-text_font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
+text_font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
 
 class Play:
@@ -35,7 +35,7 @@ class Play:
     last_intro_count = pygame.time.get_ticks()
 
     def __init__(self, display, gameStateManager):
-        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 80)
+        self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 80)
         self.display = display
         self.score = 0
         self.gameStateManager = gameStateManager

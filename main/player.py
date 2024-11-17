@@ -4,18 +4,18 @@ from sprite_sheet import Sprite
 from time import sleep
 
 # IMAGES PATH // do not erase
-idle_sheet = Sprite('main/assets/character/Idle.png')
-being_hit_sheet = Sprite('main/assets/character/Being_Hit.png')
-block_sheet = Sprite('main/assets/character/Block.png')
-up_sheet = Sprite('main/assets/character/Upper_Attack.png')
-down_sheet = Sprite('main/assets/character/Down_Attack.png')
-left_sheet = Sprite('main/assets/character/Left_Attack.png')
-left_up_sheet = Sprite('main/assets/character/Upper_Left_Attack.png')
-left_down_sheet = Sprite('main/assets/character/Down_Left_Attack.png')
-right_sheet = Sprite('main/assets/character/Right_Attack.png')
-right_up_sheet = Sprite('main/assets/character/Upper_Right_Attack.png')
-right_down_sheet = Sprite('main/assets/character/Down_Right_Attack.png')
-BG_GAMEPLAY_IMG = pygame.image.load('main/assets/background/reset.png')
+idle_sheet = Sprite('assets/character/Idle.png')
+being_hit_sheet = Sprite('assets/character/Being_Hit.png')
+block_sheet = Sprite('assets/character/Block.png')
+up_sheet = Sprite('assets/character/Upper_Attack.png')
+down_sheet = Sprite('assets/character/Down_Attack.png')
+left_sheet = Sprite('assets/character/Left_Attack.png')
+left_up_sheet = Sprite('assets/character/Upper_Left_Attack.png')
+left_down_sheet = Sprite('assets/character/Down_Left_Attack.png')
+right_sheet = Sprite('assets/character/Right_Attack.png')
+right_up_sheet = Sprite('assets/character/Upper_Right_Attack.png')
+right_down_sheet = Sprite('assets/character/Down_Right_Attack.png')
+BG_GAMEPLAY_IMG = pygame.image.load('assets/background/reset.png')
 
 # ANIMATION LIST // do not erase
 idle_animation = [idle_sheet.parse_sprite('Idle_Sheet.png')]
@@ -93,7 +93,7 @@ class Player:
         # Create a surface with an alpha channel
         self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)
         self.mask.set_alpha(0)
-        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
+        self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
     def draw(self):
         self.display.blit(idle_animation[0], (self.x, self.y))

@@ -4,19 +4,19 @@ from sprite_sheet import Sprite
 from time import sleep
 import random
 # IMAGES PATH // do not erase
-idle_sheet = Sprite('main/assets/enemy/Idle_pose.png')
-being_hit_sheet = Sprite('main/assets/enemy/Being_Hit.png')
-being_stun_sheet = Sprite('main/assets/enemy/Stun_pose.png')
-block_sheet = Sprite('main/assets/enemy/Block.png')
-up_sheet = Sprite('main/assets/enemy/Upper_Attack.png')
-down_sheet = Sprite('main/assets/enemy/Down_Attack.png')
-left_sheet = Sprite('main/assets/enemy/Left_Attack.png')
-left_up_sheet = Sprite('main/assets/enemy/Upper_Left_Attack.png')
-left_down_sheet = Sprite('main/assets/enemy/Down_Left_Attack.png')
-right_sheet = Sprite('main/assets/enemy/Right_Attack.png')
-right_up_sheet = Sprite('main/assets/enemy/Upper_Right_Attack.png')
-right_down_sheet = Sprite('main/assets/enemy/Down_Right_Attack.png')
-BG_GAMEPLAY_IMG = pygame.image.load('main/assets/background/reset2.png')
+idle_sheet = Sprite('assets/enemy/Idle_pose.png')
+being_hit_sheet = Sprite('assets/enemy/Being_Hit.png')
+being_stun_sheet = Sprite('assets/enemy/Stun_pose.png')
+block_sheet = Sprite('assets/enemy/Block.png')
+up_sheet = Sprite('assets/enemy/Upper_Attack.png')
+down_sheet = Sprite('assets/enemy/Down_Attack.png')
+left_sheet = Sprite('assets/enemy/Left_Attack.png')
+left_up_sheet = Sprite('assets/enemy/Upper_Left_Attack.png')
+left_down_sheet = Sprite('assets/enemy/Down_Left_Attack.png')
+right_sheet = Sprite('assets/enemy/Right_Attack.png')
+right_up_sheet = Sprite('assets/enemy/Upper_Right_Attack.png')
+right_down_sheet = Sprite('assets/enemy/Down_Right_Attack.png')
+BG_GAMEPLAY_IMG = pygame.image.load('assets/background/reset2.png')
 
 # ANIMATION LIST // do not erase
 idle_animation = [idle_sheet.parse_sprite('Idle_pose.ase')]
@@ -126,7 +126,7 @@ class Enemy:
         # Create a surface with an alpha channel
         self.mask = pygame.Surface(self.rect.size, pygame.SRCALPHA)
         self.mask.set_alpha(0)
-        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
+        self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
     def draw(self):
         self.update_each_frame()

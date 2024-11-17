@@ -7,10 +7,10 @@ import mysql.connector
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 # Variables
-BG_SCOREMENU_IMG = pygame.image.load('main/assets/background/grid.png')
-LEADERBOARD_IMG = pygame.image.load('main/assets/background/leaderboard.png')
-BUTTON_START_IMG = pygame.image.load('main/assets/component/start_button.png')
-BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
+BG_SCOREMENU_IMG = pygame.image.load('assets/background/grid.png')
+LEADERBOARD_IMG = pygame.image.load('assets/background/leaderboard.png')
+BUTTON_START_IMG = pygame.image.load('assets/component/start_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
 
 
 class Score:
@@ -31,7 +31,7 @@ class Score:
         # Draws the score menu on
         self.text_field = TextField(x=500, y=350, width=200, height=30, font_size=25,
                                     instruction_text="Enter your name")
-        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
+        self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
 
     def run(self):
         self.display.blit(BG_SCOREMENU_IMG, (0, 0))
@@ -56,7 +56,7 @@ class Score:
             self.text_field.handle_event(event)  # Gọi phương thức xử lý sự kiện của TextField
 
     def draw_text(self, name, score, rank, x, y):
-        font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 24)
+        font = pygame.font.Font('assets/font/Retro Gaming.ttf', 24)
         text = f"Rank: {rank}   Name:{name}    Score:{score}"
         text_surface = font.render(text, True, BLACK)
         text_rect = text_surface.get_rect(topleft=(x, y))
@@ -75,7 +75,7 @@ class Scoreboard:
         self.font_size = font_size
         self.font = pygame.font.Font(None, font_size)
         self.scores = []  # Sử dụng danh sách các cặp (tên, điểm số)
-        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 24)
+        self.font = pygame.font.Font('assets/font/Retro Gaming.ttf', 24)
 
         # Kết nối với cơ sở dữ liệu MySQL
         self.mydb = mysql.connector.connect(
