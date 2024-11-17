@@ -16,25 +16,28 @@ pygame.init()
 pygame.display.set_caption("Infinity Bugs")
 
 # Variables
-BG_GAMEPLAY_IMG = pygame.image.load('assets/background/grid.png')
-BUTTON_PAUSE_IMG = pygame.image.load('assets/component/pause_button.png')
-BUTTON_BACK_IMG = pygame.image.load('assets/component/back_button.png')
-BUTTON_QUIT_IMG = pygame.image.load('assets/component/quit_button.png')
-BUTTON_MODE_IMG = pygame.image.load('assets/component/mode_button.png')
-PLAYER_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar.png")
-ENEMY_HEALTH_BAR_IMG = pygame.image.load("assets/component/health_bar_2.png")
+BG_GAMEPLAY_IMG = pygame.image.load('main/assets/background/grid.png')
+BUTTON_PAUSE_IMG = pygame.image.load('main/assets/component/pause_button.png')
+BUTTON_BACK_IMG = pygame.image.load('main/assets/component/back_button.png')
+BUTTON_QUIT_IMG = pygame.image.load('main/assets/component/quit_button.png')
+BUTTON_MODE_IMG = pygame.image.load('main/assets/component/mode_button.png')
+PLAYER_HEALTH_BAR_IMG = pygame.image.load("main/assets/component/health_bar.png")
+ENEMY_HEALTH_BAR_IMG = pygame.image.load("main/assets/component/health_bar_2.png")
 
 time_per_frame = 0.08
-text_font = pygame.font.Font('assets/font/Retro Gaming.ttf', 48)
+text_font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 48)
 
 
 class Play:
     last_key_press_time = 0
-    cooldown = 2  # 2 seconds
+    cooldown = 1.2  # 1.2 seconds
+    intro = 3
+    last_intro_count = pygame.time.get_ticks()
 
     def __init__(self, display, gameStateManager):
-        # self.index = 0
+        self.font = pygame.font.Font('main/assets/font/Retro Gaming.ttf', 80)
         self.display = display
+        self.score = 0
         self.gameStateManager = gameStateManager
         self.paused = False
         self.pause_button = Button(64 * 18, 30, BUTTON_PAUSE_IMG, 1)
@@ -61,7 +64,6 @@ class Play:
                 self.player_health.draw(self.display)
             else:
                 self.game_over = True
-
         pygame.display.flip()
 
     def game_over_screen(self):
@@ -88,9 +90,9 @@ class Play:
             (self.display.get_width(), self.display.get_height()), pygame.SRCALPHA)
         overlay.fill((255, 255, 255, 128))  # Semi-transparent white overlay
         self.display.blit(overlay, (0, 0))
-        # self.back_button.draw(self.display)
-        # self.mode_button.draw(self.display)
-        # self.quit_button.draw(self.display)
+        self.back_button.draw(self.display)
+        self.mode_button.draw(self.display)
+        self.quit_button.draw(self.display)
 
     def handle_event_key(self, key):
         keys = {
@@ -115,7 +117,7 @@ class Play:
         def stun_thread():
             nonlocal is_stun_finsh
             self.enemy.update_each_frame()
-            self.enemy.draw_block()
+            self.enemy.being_stun()
             pygame.display.flip()
             sleep(4)
             self.enemy.update_each_frame()
@@ -139,19 +141,16 @@ class Play:
                 while not is_stun_finsh:
                     for event in pygame.event.get():
                         if event.type == pygame.KEYDOWN:
-
                             current_time = time.time()
                             if current_time - self.last_key_press_time >= self.cooldown:
                                 self.last_key_press_time = current_time
                                 self.handle_event_key(event.key)
-                                self.player.update_each_frame()
-                                self.player.draw()
                                 pygame.display.flip()
                                 if event.key != pygame.K_KP5:
+                                    self.score+=10
                                     self.enemy_being_hit()
-                                    self.enemy.update_each_frame()
-                                    self.enemy.draw_block()
-                                    self.enemy_health.hp -= 100
+                                    self.enemy.being_stun()
+                                    self.enemy_health.hp -= 10
                                     self.enemy_health.draw_enemy(self.display)
                                     pygame.display.flip()
                                 if self.enemy_health.hp <= 0:
@@ -192,6 +191,63 @@ class Play:
         if direction in directions:
             directions[direction]()
 
+    def enemy_attack(self, enemy_attack_key):
+        enemy_attack_dict = {
+            1: self.enemy_left_down_attack,
+            2: self.enemy_down_attack,
+            3: self.enemy_right_down_attack,
+            4: self.enemy_left_attack,
+            6: self.enemy_right_attack,
+            7: self.enemy_left_up_attack,
+            8: self.enemy_up_attack,
+            9: self.enemy_right_up_attack,
+        }
+        parry_dict = {
+            1: pygame.K_KP9,
+            2: pygame.K_KP8,
+            3: pygame.K_KP7,
+            4: pygame.K_KP6,
+            6: pygame.K_KP4,
+            7: pygame.K_KP3,
+            8: pygame.K_KP2,
+            9: pygame.K_KP1,
+        }
+
+        is_enemy_attack_success = True
+        is_enemy_attack_finish = False  # Initialize enemy_attack_flag
+        is_press = False  # Initialize is_press
+
+        def enemy_attack_thread():
+            nonlocal is_enemy_attack_finish  # Use nonlocal to modify outer variable
+            enemy_attack_dict[enemy_attack_key]()
+            is_enemy_attack_finish = True  # Signal that the enemy attack has finished
+
+        enemy_thread = threading.Thread(target=enemy_attack_thread)
+        enemy_thread.start()
+        key_parry = parry_dict[enemy_attack_key]
+        while not is_enemy_attack_finish:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and not is_press:
+                    is_press = True
+                    if event.key == pygame.K_KP5 or event.key == key_parry:
+                        is_enemy_attack_success = False
+                        self.score+=5
+                    self.handle_event_key(event.key)
+                    self.player.update_each_frame()
+                    self.player.draw()
+                    pygame.display.flip()
+
+        enemy_thread.join()
+        if is_enemy_attack_success:
+            self.player_health.hp -= 10
+            self.player_health.draw(self.display)
+            self.being_hit()
+            self.player.draw()
+            pygame.display.flip()
+
+            return True
+        return False
+
     def being_hit(self):
         self.player.being_hit()
 
@@ -200,8 +256,6 @@ class Play:
 
     def up_attack(self):
         self.player.up_attack()
-        self.enemy_health.hp -= 10
-        self.enemy_being_hit()
 
     def down_attack(self):
         self.player.down_attack()
@@ -254,58 +308,7 @@ class Play:
     def enemy_right_up_attack(self):
         self.enemy.right_up_attack()
 
-    def enemy_attack(self, enemy_attack_key):
-        enemy_attack_dict = {
-            1: self.enemy_left_down_attack,
-            2: self.enemy_down_attack,
-            3: self.enemy_right_down_attack,
-            4: self.enemy_left_attack,
-            6: self.enemy_right_attack,
-            7: self.enemy_left_up_attack,
-            8: self.enemy_up_attack,
-            9: self.enemy_right_up_attack,
-        }
-        parry_dict = {
-            1: pygame.K_KP9,
-            2: pygame.K_KP8,
-            3: pygame.K_KP7,
-            4: pygame.K_KP6,
-            6: pygame.K_KP4,
-            7: pygame.K_KP3,
-            8: pygame.K_KP2,
-            9: pygame.K_KP1,
-        }
-
-        is_enemy_attack_success = True
-        is_enemy_attack_finish = False  # Initialize enemy_attack_flag
-        is_press = False  # Initialize is_press
-
-        def enemy_attack_thread():
-            nonlocal is_enemy_attack_finish  # Use nonlocal to modify outer variable
-            enemy_attack_dict[enemy_attack_key]()
-            is_enemy_attack_finish = True  # Signal that the enemy attack has finished
-
-        enemy_thread = threading.Thread(target=enemy_attack_thread)
-        enemy_thread.start()
-        key_parry = parry_dict[enemy_attack_key]
-        while not is_enemy_attack_finish:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and not is_press:
-                    is_press = True
-                    if event.key == pygame.K_KP5 or event.key == key_parry:
-                        is_enemy_attack_success = False
-                    self.handle_event_key(event.key)
-                    self.player.update_each_frame()
-                    self.player.draw()
-                    pygame.display.flip()
-
-        enemy_thread.join()
-        if is_enemy_attack_success:
-            self.player_health.hp -= 50
-            self.player_health.draw(self.display)
-            self.being_hit()
-            self.player.draw()
-            pygame.display.flip()
-
-            return True
-        return False
+    def text_display(self, text, text_col, x, y):
+        img = self.font.render(text, True, text_col)
+        self.display.blit(img, (x, y))
+        pygame.display.flip()

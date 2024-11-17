@@ -5,16 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b519b212-df72-4074-a5e5-ee6d5afa7849" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/assets/enemy/Stun_pose.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/assets/enemy/Stun_pose.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_patch/dtb_test/Scoreboard.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_patch/dtb_test/testscoremenu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/ZTech_InfinityBugs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ZTech_InfinityBugs.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/background/leaderboard.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/background/leaderboard.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Being_Hit.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Being_Hit.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Being_Hit.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Being_Hit.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Block.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Block.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Block.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Block.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Left_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Left_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Left_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Left_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Right_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Right_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Down_Right_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Down_Right_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Idle_pose.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Idle_pose.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Idle_pose.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Idle_pose.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Left_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Left_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Left_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Left_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Right_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Right_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Right_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Right_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Left_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Left_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Left_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Left_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Right_Attack.json" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Right_Attack.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/assets/boss/Upper_Right_Attack.png" beforeDir="false" afterPath="$PROJECT_DIR$/main/assets/enemy/Upper_Right_Attack.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/button.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/button.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/enemy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/mouse_track.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/mouse_track.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/play_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/play_screen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_patch/gametest/AiVirtualMouseProject.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_patch/gametest/AiVirtualMouseProject.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/score_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/score_screen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/start_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/start_screen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +67,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Merging master",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "D:/Study/3rd-year/ZTech_InfinityBugs"
   }

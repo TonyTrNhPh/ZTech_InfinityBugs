@@ -22,7 +22,7 @@ class MouseTrackerApp:
         if self.recording:
             self.recording = False
             return self.determine_direction()
-
+        
     def determine_direction(self):
         longest_length = 0
         longest_segment_index = 0
@@ -45,23 +45,6 @@ class MouseTrackerApp:
             if angle < 0:
                 angle += 360
 
-            # if 22.5 <= angle < 67.5:
-            #     print("Huong phai-duoi")
-            # elif 67.5 <= angle < 112.5:
-            #     print("Huong duoi")
-            # elif 112.5 <= angle < 157.5:
-            #     print("Huong duoi-trai")
-            # elif 157.5 <= angle < 202.5:
-            #     print("Huong trai")
-            # elif 202.5 <= angle < 247.5:
-            #     print("Huong trai-tren")
-            # elif 247.5 <= angle < 292.5:
-            #     print("Huong tren")
-            # elif 292.5 <= angle < 337.5:
-            #     print("Huong tren-phai")
-            # else:
-            #     print("Huong phai")
-
             if 22.5 <= angle < 67.5:
                 return "RIGHT_DOWN"
             elif 67.5 <= angle < 112.5:
@@ -78,4 +61,6 @@ class MouseTrackerApp:
                 return "RIGHT_UP"
             else:
                 return "RIGHT"
+            
+        else: return "BLOCK"
         
