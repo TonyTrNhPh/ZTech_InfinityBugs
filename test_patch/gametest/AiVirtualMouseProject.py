@@ -4,7 +4,6 @@ import HandTrackingModule as htm
 import time
 import autopy
 from autopy import mouse
-import pyautogui
 
 ##########################
 wCam, hCam = 640, 480

@@ -30,7 +30,7 @@ class onScreen:
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
-        self.gameStateManager = GameStateManager('start')
+        self.gameStateManager = GameStateManager('play')
         self.start = Start(self.screen, self.gameStateManager)
         self.play = Play(self.screen, self.gameStateManager)
         self.score = Score(self.screen, self.gameStateManager)
@@ -59,6 +59,7 @@ class onScreen:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         print('Clicked')
                 elif self.gameStateManager.get_state() == 'play':
+                    #
                     if self.play.pause_button.isClicked():
                         self.play.paused = True
                     if self.play.back_button.isClicked():
@@ -82,15 +83,16 @@ class onScreen:
                         # Press ESC on the keyboard to pause or unpause the game
                         if event.key == pygame.K_ESCAPE:
                             self.play.toggle_pause()
-                        elif event.key == pygame.K_ESCAPE:
-                            self.play.toggle_pause()
-                        elif self.time_now - self.last_attack >= self.cool_down:
-                            self.last_attack = self.time_now
-                            self.play.handle_event_key(event.key)
-                        if self.play.player_health == 0:
+                        if event.key == pygame.K_a:
+                            self.play.attack()
+                        if self.play.player_health.hp <= 0 or self.play.enemy_health.hp <= 0:
+                            if self.play.player_health.hp <= 0:
+                                self.play.game_over_screen()
+                            else:
+                                self.play.game_win_screen()
                             sleep(3)
                             self.gameStateManager.set_state('score')
-                            self.play.health_bar.hp = self.play.health_bar.max_hp
+                            self.play.player_health.hp = self.play.player_health.max_hp
                 elif self.gameStateManager.get_state() == 'score':
                     if self.score.start_button.isClicked():
                         self.score.toggle_save()
